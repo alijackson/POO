@@ -31,14 +31,14 @@ public class LimitTxt extends PlainDocument
         //if (s == null) return;
         if (isHasLimit())        // aceitara qualquer no. de caracteres
         {
-            super.insertString(offset, str.toUpperCase(), attr);
+            super.insertString(offset, str, attr);
             return;
         }
         
         int ilen = (getLength() + str.length());
         // Valida se é maior que o informado, e se é um número
         if (ilen <= getiMaxLength())    // se o comprimento final for menor...
-            super.insertString(offset, str.toUpperCase(), attr);   // ...aceita str
+            super.insertString(offset, str, attr);   // ...aceita str
         
     }
 

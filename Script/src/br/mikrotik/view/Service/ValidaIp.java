@@ -28,27 +28,34 @@ public class ValidaIp extends LimitTxt{
             super.insertString(offset, str, attr);
             return;
         }
-        if(octeto(str))
+        if(octeto())
         {
             super.insertString(offset, str, attr);
             return;
         }
         
     }
+    
     private boolean isPonto(String str)
     {
         if(str.equals("."))
         {
-            return octeto(str);
+            return octeto();
         } 
         return false;
     }
-    private boolean octeto(String str)
+    
+    private boolean octeto()
     {
-        if(getLength() < 3)
+        if(getLength() <= 3)
         {
             return true;
         }
         return false;
+    }
+    
+    private void incrementoPonto()
+    {
+        
     }
 }

@@ -23,7 +23,7 @@ public class LimitNumber extends LimitTxt{
     {
         // Valida se é maior que o informado, e se é um número
         if (validateIsNumber(str))    // se o comprimento final for menor...
-            super.insertString(offset, str.toUpperCase(), attr);   // ...aceita str
+            super.insertString(offset, str, attr);   // ...aceita str
     }
     /**
      * Codificado para validar se é um número 
