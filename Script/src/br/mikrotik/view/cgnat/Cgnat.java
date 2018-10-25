@@ -3,6 +3,7 @@ package br.mikrotik.view.cgnat;
 import br.mikrotik.view.Service.LimitNumber;
 import br.mikrotik.view.Service.LimitTxt;
 import br.mikrotik.view.Service.ValidaIp;
+import com.sun.glass.events.KeyEvent;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,14 +21,16 @@ public class Cgnat extends javax.swing.JInternalFrame {
      * Creates new form Main
      */
     LimitTxt form = new LimitTxt(2);
-    LimitNumber limitNumber = new LimitNumber(10);
-    ValidaIp validaIp = new ValidaIp();
+    LimitNumber limitNumber = new LimitNumber(4);
+    ValidaIp validaIpPublico = new ValidaIp();
+    
+    ValidaIp validaIpPrivado = new ValidaIp();
     
     public Cgnat() {
         initComponents();
         
-        txtPublico.setDocument(form);
-        txtPrivado.setDocument(validaIp);
+        txtPublico.setDocument(validaIpPublico);
+        txtPrivado.setDocument(validaIpPrivado);
     }
 
     /**
@@ -48,25 +51,38 @@ public class Cgnat extends javax.swing.JInternalFrame {
         lQuat = new java.awt.Label();
         txtPublico2 = new javax.swing.JTextField();
         lQuat1 = new java.awt.Label();
+        cbMaskPrivado = new javax.swing.JComboBox<>();
+        lMaskPrivado = new java.awt.Label();
+        cbMaskPrivado1 = new javax.swing.JComboBox<>();
+        lMaskPublico = new java.awt.Label();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
+        setMaximumSize(new java.awt.Dimension(300, 400));
+        setMinimumSize(new java.awt.Dimension(300, 400));
+
+        txtPrivado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPrivadoKeyPressed(evt);
+            }
+        });
 
         ipPublico.setName(""); // NOI18N
-        ipPublico.setText("Bloco IP privado");
+        ipPublico.setText("ID do Bloco privado");
 
         ipPublico1.setName(""); // NOI18N
         ipPublico1.setText("Bloco IP privado");
         ipPublico1.setVisible(false);
 
         ipPublico2.setName(""); // NOI18N
-        ipPublico2.setText("Bloco IP publico");
+        ipPublico2.setText("ID do Bloco publico");
 
-        txtPublico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPublicoActionPerformed(evt);
+        txtPublico.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPublicoKeyPressed(evt);
             }
         });
 
@@ -74,30 +90,52 @@ public class Cgnat extends javax.swing.JInternalFrame {
 
         lQuat1.setText("Quant.");
 
+        cbMaskPrivado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "/26", "/25", "/24", "/23", "/22", "/21", "/20", "/19" }));
+
+        lMaskPrivado.setText("Mask Privado");
+
+        cbMaskPrivado1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "/32", "/31", "/30", "/29", "/28", "/27" }));
+
+        lMaskPublico.setText("Mask Publico");
+
+        jButton1.setText("Gerar Script");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(ipPublico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ipPublico1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ipPublico2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPublico, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                    .addComponent(txtPrivado))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtQuatPublico, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lQuat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPublico2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lQuat1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(130, 130, 130))
+                    .addComponent(jButton1)
+                    .addComponent(lMaskPrivado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(ipPublico1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(cbMaskPrivado1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lMaskPublico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(ipPublico2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtPublico, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(cbMaskPrivado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ipPublico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtPrivado)))
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPublico2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lQuat1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtQuatPublico, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lQuat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(184, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(ipPublico2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lQuat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -107,32 +145,61 @@ public class Cgnat extends javax.swing.JInternalFrame {
                     .addComponent(txtQuatPublico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(ipPublico1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(ipPublico1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lMaskPublico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbMaskPrivado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(ipPublico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtPrivado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lQuat1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtPublico2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(108, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lMaskPrivado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbMaskPrivado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(27, 27, 27))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtPublicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPublicoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPublicoActionPerformed
+    private void txtPrivadoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrivadoKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_BACKSPACE)
+        {
+            validaIpPrivado.backSpace();
+            System.out.println("backspace digitada");
+        }
+    }//GEN-LAST:event_txtPrivadoKeyPressed
+
+    private void txtPublicoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPublicoKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_BACKSPACE)
+        {
+            validaIpPublico.backSpace();
+            System.out.println("backspace digitada");
+        }
+    }//GEN-LAST:event_txtPublicoKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbMaskPrivado;
+    private javax.swing.JComboBox<String> cbMaskPrivado1;
     private java.awt.Label ipPublico;
     private java.awt.Label ipPublico1;
     private java.awt.Label ipPublico2;
+    private javax.swing.JButton jButton1;
+    private java.awt.Label lMaskPrivado;
+    private java.awt.Label lMaskPublico;
     private java.awt.Label lQuat;
     private java.awt.Label lQuat1;
     private javax.swing.JTextField txtPrivado;

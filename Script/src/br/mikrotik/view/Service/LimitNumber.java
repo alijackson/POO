@@ -31,15 +31,8 @@ public class LimitNumber extends LimitTxt{
      * @param str
      * @return 
      */
-    private boolean validateIsNumber(String str){
-        try 
-        {
-            Integer.parseInt(str);
-            return true;
-        } 
-        catch (Exception e) 
-        {
-            return false;
-        }
+    private boolean validateIsNumber(String str)
+    {
+        return str.matches("[0-9]");
     }
 }
