@@ -1,5 +1,7 @@
 package br.mikrotik.view.cgnat;
 
+import br.mikrotik.script.cgnat.CgNat;
+import br.mikrotik.script.cgnat.Ip;
 import br.mikrotik.view.Service.LimitNumber;
 import br.mikrotik.view.Service.LimitTxt;
 import br.mikrotik.view.Service.ValidaIp;
@@ -53,7 +55,7 @@ public class Cgnat extends javax.swing.JInternalFrame {
         lQuat1 = new java.awt.Label();
         cbMaskPrivado = new javax.swing.JComboBox<>();
         lMaskPrivado = new java.awt.Label();
-        cbMaskPrivado1 = new javax.swing.JComboBox<>();
+        cbMaskPublico = new javax.swing.JComboBox<>();
         lMaskPublico = new java.awt.Label();
         jButton1 = new javax.swing.JButton();
 
@@ -94,11 +96,16 @@ public class Cgnat extends javax.swing.JInternalFrame {
 
         lMaskPrivado.setText("Mask Privado");
 
-        cbMaskPrivado1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "/32", "/31", "/30", "/29", "/28", "/27" }));
+        cbMaskPublico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "/32", "/31", "/30", "/29", "/28", "/27" }));
 
         lMaskPublico.setText("Mask Publico");
 
         jButton1.setText("Gerar Script");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,7 +123,7 @@ public class Cgnat extends javax.swing.JInternalFrame {
                                     .addComponent(ipPublico1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(cbMaskPrivado1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cbMaskPublico, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(lMaskPublico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addComponent(ipPublico2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(txtPublico, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
@@ -151,7 +158,7 @@ public class Cgnat extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lMaskPublico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbMaskPrivado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbMaskPublico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -183,17 +190,43 @@ public class Cgnat extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtPrivadoKeyPressed
 
     private void txtPublicoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPublicoKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_BACKSPACE)
+        
+        Thread count = new Thread()
         {
-            validaIpPublico.backSpace();
-            System.out.println("backspace digitada");
-        }
+            @Override
+            public void run() 
+            {
+                if(evt.getKeyCode() == KeyEvent.VK_BACKSPACE)
+                {
+                    validaIpPublico.backSpace();
+                    System.out.println("backspace digitada");
+                }
+            }
+        };
     }//GEN-LAST:event_txtPublicoKeyPressed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Ip publico = new Ip(txtPublico.getText());
+        Ip privado = new Ip(txtPrivado.getText());
+        CgNat cgNat = new CgNat(publico);
+        
+        publico.setMask(cbMaskPublico.getSelectedItem().toString());
+        privado.setMask(cbMaskPrivado.getSelectedItem().toString());
+        
+        if(cgNat.validarIP())
+        {
+            System.out.println("IP Valido");
+        }
+        else
+            System.err.println("IP Invalido");
+//        System.out.println("Publico "+publico.toString());
+//        System.out.println("Privado "+privado.toString());
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbMaskPrivado;
-    private javax.swing.JComboBox<String> cbMaskPrivado1;
+    private javax.swing.JComboBox<String> cbMaskPublico;
     private java.awt.Label ipPublico;
     private java.awt.Label ipPublico1;
     private java.awt.Label ipPublico2;
