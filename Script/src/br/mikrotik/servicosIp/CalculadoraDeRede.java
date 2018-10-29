@@ -1,6 +1,4 @@
-package calculadoraredeip;
-
-import br.mikrotik.servicosIp.*;
+package br.mikrotik.servicosIp;
 
 /**
  * Classe da calculadora de rede.
