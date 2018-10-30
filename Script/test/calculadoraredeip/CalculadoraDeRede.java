@@ -317,28 +317,28 @@ public class CalculadoraDeRede {
 	 * M�todo para listar sub redes.
 	 */
 	public void listarSubRede(){
-		int contadorDeRede = 1;
-		for(int i = 0;i < quantidadeSubRedes; i++){
-			System.out.print("Endere�o de rede da sub rede " + contadorDeRede + ": ");
-			for(int j = 0; j < quantidadeSubRedesDaSubRede; j++){
-				if(j == quantidadeSubRedesDaSubRede-1){
-					System.out.print("Endere�o de broadcast: ");
-				}
-				if(quartoCampoEnderecoComMascara <= 255){
-					System.out.println(primeiroCampoEnderecoComMascara + "." + segundoCampoEnderecoComMascara + "." + terceiroCampoEnderecoComMascara + "." + quartoCampoEnderecoComMascara++);
-				}
-				else if(terceiroCampoEnderecoComMascara <= 255){
-					quartoCampoEnderecoComMascara = 0;
-					System.out.println(primeiroCampoEnderecoComMascara + "." + segundoCampoEnderecoComMascara + "." + ++terceiroCampoEnderecoComMascara + "." + quartoCampoEnderecoComMascara++);
-				}
-				else if(quartoCampoEnderecoComMascara >= 255 && terceiroCampoEnderecoComMascara >= 255){
-					quartoCampoEnderecoComMascara = 0;
-					terceiroCampoEnderecoComMascara = 0;
-					System.out.println(primeiroCampoEnderecoComMascara + "." + ++segundoCampoEnderecoComMascara + "." + terceiroCampoEnderecoComMascara++ + "." + quartoCampoEnderecoComMascara++);
-				}					
-			}
-				contadorDeRede++;	
-		}
+            int contadorDeRede = 1;
+            for(int i = 0;i < quantidadeSubRedes; i++){
+                System.out.print("Endere�o de rede da sub rede " + contadorDeRede + ": ");
+                for(int j = 0; j < quantidadeSubRedesDaSubRede; j++){
+                    if(j == quantidadeSubRedesDaSubRede-1){
+                            System.out.print("Endere�o de broadcast: ");
+                    }
+                    if(quartoCampoEnderecoComMascara <= 255){
+                            System.out.println(primeiroCampoEnderecoComMascara + "." + segundoCampoEnderecoComMascara + "." + terceiroCampoEnderecoComMascara + "." + quartoCampoEnderecoComMascara++);
+                    }
+                    else if(terceiroCampoEnderecoComMascara <= 255){
+                            quartoCampoEnderecoComMascara = 0;
+                            System.out.println(primeiroCampoEnderecoComMascara + "." + segundoCampoEnderecoComMascara + "." + ++terceiroCampoEnderecoComMascara + "." + quartoCampoEnderecoComMascara++);
+                    }
+                    else if(quartoCampoEnderecoComMascara >= 255 && terceiroCampoEnderecoComMascara >= 255){
+                            quartoCampoEnderecoComMascara = 0;
+                            terceiroCampoEnderecoComMascara = 0;
+                            System.out.println(primeiroCampoEnderecoComMascara + "." + ++segundoCampoEnderecoComMascara + "." + terceiroCampoEnderecoComMascara++ + "." + quartoCampoEnderecoComMascara++);
+                    }					
+            }
+            contadorDeRede++;	
+            }
 	}
 	
 	/**

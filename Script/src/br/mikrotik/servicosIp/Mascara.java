@@ -36,24 +36,26 @@ public class Mascara extends ElementoDeRede {
 	public void validarMascara(boolean zero, boolean invalida, String unsNaMascara){
 		int tamanho = octetosConcatenados.length();
 		for(int i = 0; i < tamanho; i++){
-			if(octetosConcatenados.charAt(i) == '0'){
-				zero = true;
-			}
-			else{
-				if(zero){
-					System.out.println("M�scara inv�lida");
-					invalida = true;
-					break;
-				}
-			}
+                    if(octetosConcatenados.charAt(i) == '0')
+                    {
+                            zero = true;
+                    }
+                    else{
+                        if(zero)
+                        {
+                                System.out.println("M�scara inv�lida");
+                                invalida = true;
+                                break;
+                        }
+                    }
 		}
 		if(octetosConcatenados.startsWith(unsNaMascara) && invalida == false){
-			System.out.println("M�scara v�lida");
+                    System.out.println("M�scara v�lida");
 		}
 		else{
-			System.out.println("M�scara inv�lida");
-			invalida = true;
-			}
+                    System.out.println("M�scara inv�lida");
+                    invalida = true;
+                }
 	}
 	
 	

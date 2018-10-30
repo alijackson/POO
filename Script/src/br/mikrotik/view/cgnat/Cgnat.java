@@ -1,10 +1,6 @@
 package br.mikrotik.view.cgnat;
 
-import br.mikrotik.script.cgnat.CgNat;
-import br.mikrotik.script.cgnat.Ip;
-import br.mikrotik.servicosIp.CalculadoraDeRede;
-import br.mikrotik.servicosIp.EnderecoIP;
-import br.mikrotik.servicosIp.Mascara;
+import br.mikrotik.servicosIp.CgNat;
 import br.mikrotik.view.Service.LimitNumber;
 import br.mikrotik.view.Service.LimitTxt;
 import br.mikrotik.view.Service.ValidaIp;
@@ -58,7 +54,7 @@ public class Cgnat extends javax.swing.JInternalFrame {
         lQuat1 = new java.awt.Label();
         lMaskPrivado = new java.awt.Label();
         lMaskPublico = new java.awt.Label();
-        jButton1 = new javax.swing.JButton();
+        gerarScript = new javax.swing.JButton();
         txtMaskPublico = new javax.swing.JTextField();
         txtMaskPrivado = new javax.swing.JTextField();
 
@@ -99,10 +95,10 @@ public class Cgnat extends javax.swing.JInternalFrame {
 
         lMaskPublico.setText("Mask Publico");
 
-        jButton1.setText("Gerar Script");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        gerarScript.setText("Gerar Script");
+        gerarScript.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                gerarScriptActionPerformed(evt);
             }
         });
 
@@ -143,9 +139,8 @@ public class Cgnat extends javax.swing.JInternalFrame {
                             .addComponent(lQuat1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtQuatPublico, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lQuat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton1)
-                        .addComponent(lMaskPrivado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(gerarScript)
+                    .addComponent(lMaskPrivado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(148, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -183,7 +178,7 @@ public class Cgnat extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtMaskPrivado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(gerarScript)
                 .addGap(27, 27, 27))
         );
 
@@ -214,51 +209,31 @@ public class Cgnat extends javax.swing.JInternalFrame {
         };
     }//GEN-LAST:event_txtPublicoKeyPressed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void gerarScriptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarScriptActionPerformed
 
         
-//        publico.setMask(cbMaskPublico.getSelectedItem().toString());
-//        privado.setMask(cbMaskPrivado.getSelectedItem().toString());
+        CgNat script = new CgNat(txtPublico.getText(), txtMaskPublico.getText(),
+                            txtPrivado.getText(), txtMaskPrivado.getText());
+        script.sharePool();
+        
+//        publico.separateOctets();
 //        
-        CalculadoraDeRede calculadora = new CalculadoraDeRede();
-        
-        EnderecoIP servPublico = new EnderecoIP(txtPublico.getText());
-        servPublico.converterParaDecimal(txtPublico.getText()); //converte para decimal
-        servPublico.converterParaBinario(); //converte para bin�rio
-        
-        EnderecoIP servPrivado = new EnderecoIP(txtPrivado.getText());
-        servPrivado.converterParaDecimal(txtPrivado.getText()); //converte para decimal
-        servPrivado.converterParaBinario(); //converte para bin�rio
-        
-        Mascara maskPublico = new Mascara(txtMaskPublico.getText());
-        maskPublico.converterParaDecimal(txtMaskPublico.getText());
-        maskPublico.converterParaBinario();
-        
-        Mascara mascaraDeRede = new Mascara(txtMaskPublico.getText());
-        mascaraDeRede.converterParaDecimal(txtMaskPublico.getText());
-        mascaraDeRede.converterParaBinario();
-        
-        if(mascaraDeRede.verificarMascara(calculadora.getClasse()) == true)
-            {
-                 return;
-            }						
-
-            calculadora.quantidadeSubRedes(mascaraDeRede.getPrimeiroOcteto(), 
-                    mascaraDeRede.getSegundoOcteto(), mascaraDeRede.getTerceiroOcteto(), 
-                    mascaraDeRede.getQuartoOcteto());
-
-            calculadora.subRedesDaSubRede(mascaraDeRede.getPrimeiroOcteto(), 
-                    mascaraDeRede.getSegundoOcteto(),mascaraDeRede.getTerceiroOcteto(), 
-                    mascaraDeRede.getQuartoOcteto());
-
-            calculadora.calcularEnderecoComMP(servPublico.getPrimeiroOcteto(), 
-                    servPublico.getSegundoOcteto(), servPublico.getTerceiroOcteto(), 
-                    servPublico.getQuartoOcteto());
-
-            calculadora.listarSubRede();
-//        System.out.println("Publico "+publico.toString());
-//        System.out.println("Privado "+privado.toString());
-    }//GEN-LAST:event_jButton1ActionPerformed
+//        privado.separateOctets();
+//        
+//        System.out.println("Segue ip publico "+ "\n" + publico.getFirstOcteto() + "\n" +
+//                publico.getSecondOcteto() + "\n" + publico.getThirdOcteto() + "\n" +
+//                publico.getRoomOcteto());
+//        System.out.println("Segue ip privado "+ "\n" + privado.getFirstOcteto() + "\n" +
+//                privado.getSecondOcteto() + "\n" + privado.getThirdOcteto() + "\n" +
+//                privado.getRoomOcteto());
+//        
+//        System.out.println("Segue Decimal publico "+ "\n" + publico.getFirstOctetoDec() + "\n" +
+//                publico.getSecondOctetoDec() + "\n" + publico.getThirdOctetoDec() + "\n" +
+//                publico.getRoomOctetoDec());
+//        System.out.println("Segue Decimal privado "+ "\n" + privado.getFirstOctetoDec() + "\n" +
+//                privado.getSecondOctetoDec() + "\n" + privado.getThirdOctetoDec() + "\n" +
+//                privado.getRoomOctetoDec());
+    }//GEN-LAST:event_gerarScriptActionPerformed
 
     private void txtMaskPublicoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaskPublicoKeyPressed
         // TODO add your handling code here:
@@ -270,10 +245,10 @@ public class Cgnat extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton gerarScript;
     private java.awt.Label ipPublico;
     private java.awt.Label ipPublico1;
     private java.awt.Label ipPublico2;
-    private javax.swing.JButton jButton1;
     private java.awt.Label lMaskPrivado;
     private java.awt.Label lMaskPublico;
     private java.awt.Label lQuat;

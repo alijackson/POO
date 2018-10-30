@@ -147,28 +147,30 @@ public class CalculadoraDeRede {
 	 * @param quartoOctetoIP String - quarto campo do endere�o IP (em bin�rio).
 	 */
 	public void calcularEndereco(String bit, String primeiroOctetoMascara, String segundoOctetoMascara, String terceiroOctetoMascara, String quartoOctetoMascara,
-		String primeiroOctetoIP, String segundoOctetoIP, String terceiroOctetoIP, String quartoOctetoIP){
-		String mascaraConcatenada = primeiroOctetoMascara + segundoOctetoMascara + terceiroOctetoMascara + quartoOctetoMascara;
-		String enderecoIPConcatenado = primeiroOctetoIP + segundoOctetoIP + terceiroOctetoIP + quartoOctetoIP;
-		String enderecoEmBinario;
-		int contador = 0;
-		contador = contarUns(mascaraConcatenada, contador);
-	
-		enderecoEmBinario = enderecoIPConcatenado.substring(0, contador);
-		for(int i = contador+1; i <= 32;i++){
-			enderecoEmBinario += bit;
-		}
-		String primeiroCampoEndereco, segundoCampoEndereco, terceiroCampoEndereco, quartoCampoEndereco;
-		
-		primeiroCampoEndereco = enderecoEmBinario.substring(0, 8);
-		segundoCampoEndereco = enderecoEmBinario.substring(8, 16);
-		terceiroCampoEndereco = enderecoEmBinario.substring(16, 24);
-		quartoCampoEndereco = enderecoEmBinario.substring(24, 32);
-		
-		primeiroCampoEnderecoDeRede = Integer.parseInt(primeiroCampoEndereco, 2);
-		segundoCampoEnderecoDeRede = Integer.parseInt(segundoCampoEndereco, 2);
-		terceiroCampoEnderecoDeRede = Integer.parseInt(terceiroCampoEndereco, 2);
-		quartoCampoEnderecoDeRede = Integer.parseInt(quartoCampoEndereco, 2);
+            String primeiroOctetoIP, String segundoOctetoIP, String terceiroOctetoIP, String quartoOctetoIP){
+            String mascaraConcatenada = primeiroOctetoMascara + segundoOctetoMascara + terceiroOctetoMascara + quartoOctetoMascara;
+            String enderecoIPConcatenado = primeiroOctetoIP + segundoOctetoIP + terceiroOctetoIP + quartoOctetoIP;
+            String enderecoEmBinario;
+            int contador = 0;
+            contador = contarUns(mascaraConcatenada, contador);
+
+            enderecoEmBinario = enderecoIPConcatenado.substring(0, contador);
+
+            for(int i = contador+1; i <= 32;i++)
+            {
+                    enderecoEmBinario += bit;
+            }
+            String primeiroCampoEndereco, segundoCampoEndereco, terceiroCampoEndereco, quartoCampoEndereco;
+
+            primeiroCampoEndereco = enderecoEmBinario.substring(0, 8);
+            segundoCampoEndereco = enderecoEmBinario.substring(8, 16);
+            terceiroCampoEndereco = enderecoEmBinario.substring(16, 24);
+            quartoCampoEndereco = enderecoEmBinario.substring(24, 32);
+
+            primeiroCampoEnderecoDeRede = Integer.parseInt(primeiroCampoEndereco, 2);
+            segundoCampoEnderecoDeRede = Integer.parseInt(segundoCampoEndereco, 2);
+            terceiroCampoEnderecoDeRede = Integer.parseInt(terceiroCampoEndereco, 2);
+            quartoCampoEnderecoDeRede = Integer.parseInt(quartoCampoEndereco, 2);
 		
 	}
 	
@@ -315,28 +317,28 @@ public class CalculadoraDeRede {
 	 * M�todo para listar sub redes.
 	 */
 	public void listarSubRede(){
-		int contadorDeRede = 1;
-		for(int i = 0;i < quantidadeSubRedes; i++){
-			System.out.print("Endere�o de rede da sub rede " + contadorDeRede + ": ");
-			for(int j = 0; j < quantidadeSubRedesDaSubRede; j++){
-				if(j == quantidadeSubRedesDaSubRede-1){
-					System.out.print("Endere�o de broadcast: ");
-				}
-				if(quartoCampoEnderecoComMascara <= 255){
-					System.out.println(primeiroCampoEnderecoComMascara + "." + segundoCampoEnderecoComMascara + "." + terceiroCampoEnderecoComMascara + "." + quartoCampoEnderecoComMascara++);
-				}
-				else if(terceiroCampoEnderecoComMascara <= 255){
-					quartoCampoEnderecoComMascara = 0;
-					System.out.println(primeiroCampoEnderecoComMascara + "." + segundoCampoEnderecoComMascara + "." + ++terceiroCampoEnderecoComMascara + "." + quartoCampoEnderecoComMascara++);
-				}
-				else if(quartoCampoEnderecoComMascara >= 255 && terceiroCampoEnderecoComMascara >= 255){
-					quartoCampoEnderecoComMascara = 0;
-					terceiroCampoEnderecoComMascara = 0;
-					System.out.println(primeiroCampoEnderecoComMascara + "." + ++segundoCampoEnderecoComMascara + "." + terceiroCampoEnderecoComMascara++ + "." + quartoCampoEnderecoComMascara++);
-				}					
-			}
-				contadorDeRede++;	
-		}
+            int contadorDeRede = 1;
+            for(int i = 0;i < quantidadeSubRedes; i++){
+                System.out.print("Endere�o de rede da sub rede " + contadorDeRede + ": ");
+                for(int j = 0; j < quantidadeSubRedesDaSubRede; j++){
+                    if(j == quantidadeSubRedesDaSubRede-1){
+                            System.out.print("Endere�o de broadcast: ");
+                    }
+                    if(quartoCampoEnderecoComMascara <= 255){
+                            System.out.println(primeiroCampoEnderecoComMascara + "." + segundoCampoEnderecoComMascara + "." + terceiroCampoEnderecoComMascara + "." + quartoCampoEnderecoComMascara++);
+                    }
+                    else if(terceiroCampoEnderecoComMascara <= 255){
+                            quartoCampoEnderecoComMascara = 0;
+                            System.out.println(primeiroCampoEnderecoComMascara + "." + segundoCampoEnderecoComMascara + "." + ++terceiroCampoEnderecoComMascara + "." + quartoCampoEnderecoComMascara++);
+                    }
+                    else if(quartoCampoEnderecoComMascara >= 255 && terceiroCampoEnderecoComMascara >= 255){
+                            quartoCampoEnderecoComMascara = 0;
+                            terceiroCampoEnderecoComMascara = 0;
+                            System.out.println(primeiroCampoEnderecoComMascara + "." + ++segundoCampoEnderecoComMascara + "." + terceiroCampoEnderecoComMascara++ + "." + quartoCampoEnderecoComMascara++);
+                    }					
+                }
+                        contadorDeRede++;	
+            }
 	}
 	
 	/**

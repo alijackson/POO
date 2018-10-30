@@ -26,7 +26,7 @@ public class ElementoDeRede {
 	 */
 	public void converterParaDecimal(String elemento){
 		
-		String campo[] = new String[4];
+		String campo[];
 		campo = elemento.split("\\.");//separa a string pelos pontos e atribui a um vetor
 		
 		//converte cada posi��o do vetor para int e atribui �s respectivas vari�veis
@@ -41,23 +41,23 @@ public class ElementoDeRede {
 	 * M�todo para converter os campos do elemento de inteiro para bin�rio (String).
 	 */
 	public void converterParaBinario(){
-		//cada campo � convertido para bin�rio e 0s s�o inseridos � esquerda at� que tenha 8 bits
-		primeiroOcteto = Integer.toBinaryString(primeiroCampoDecimal);
-		while(primeiroOcteto.length() < 8){
-			primeiroOcteto = "0" + primeiroOcteto;
-		}
-		segundoOcteto = Integer.toBinaryString(segundoCampoDecimal);
-		while(segundoOcteto.length() < 8){
-			segundoOcteto = "0" + segundoOcteto;
-		}
-		terceiroOcteto = Integer.toBinaryString(terceiroCampoDecimal);
-		while(terceiroOcteto.length() < 8){
-			terceiroOcteto = "0" + terceiroOcteto;
-		}
-		quartoOcteto = Integer.toBinaryString(quartoCampoDecimal);
-		while(quartoOcteto.length() < 8){
-			quartoOcteto = "0" + quartoOcteto;
-		}
+            //cada campo � convertido para bin�rio e 0s s�o inseridos � esquerda at� que tenha 8 bits
+            primeiroOcteto = Integer.toBinaryString(primeiroCampoDecimal);
+            while(primeiroOcteto.length() < 8){
+                    primeiroOcteto = "0" + primeiroOcteto;
+            }
+            segundoOcteto = Integer.toBinaryString(segundoCampoDecimal);
+            while(segundoOcteto.length() < 8){
+                    segundoOcteto = "0" + segundoOcteto;
+            }
+            terceiroOcteto = Integer.toBinaryString(terceiroCampoDecimal);
+            while(terceiroOcteto.length() < 8){
+                    terceiroOcteto = "0" + terceiroOcteto;
+            }
+            quartoOcteto = Integer.toBinaryString(quartoCampoDecimal);
+            while(quartoOcteto.length() < 8){
+                    quartoOcteto = "0" + quartoOcteto;
+            }
 	}
 	
 	/**
