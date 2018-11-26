@@ -5,6 +5,9 @@ import br.mikrotik.view.Service.LimitNumber;
 import br.mikrotik.view.Service.LimitTxt;
 import br.mikrotik.view.Service.ValidaIp;
 import com.sun.glass.events.KeyEvent;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -228,9 +231,45 @@ public class Cgnat extends javax.swing.JInternalFrame {
         
         CgNat script = new CgNat(txtPublico.getText(), txtMaskPublico.getText(),
                             txtPrivado.getText(), txtMaskPrivado.getText());
-        script.sharePool();
-    }//GEN-LAST:event_gerarScriptActionPerformed
+        
 
+        script.sharePool(shareArquivo()+".txt");
+        
+        JOptionPane.showMessageDialog(null, "Script gerado com sucesso");
+    }//GEN-LAST:event_gerarScriptActionPerformed
+     /**
+     * Função permite o usuario pesquisar um arquivo excel no PC, podendo
+     * vasculhar arquivos disponivel. Podendo selecionar apenas arquivos xls.
+     * @return String 
+     * Caminho do arquivo.
+     */
+    public String shareArquivo() {
+        FileNameExtensionFilter filter = null;
+        
+        String retorno = "";
+        // Instancia um metodo FileChoose para abrir a tela de pesquisa no PC
+        JFileChooser shareArq = new JFileChooser();
+        // Defini um titulo a janela a ser aberta
+        shareArq.setDialogTitle( "Salvar " );
+        // Guarda o caminho do arquivo selecionado.
+        shareArq.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        // Restringe o usuario a escolher somente arquivo Excel na extensão xls
+        
+            filter = new FileNameExtensionFilter("Texto","txt");
+            FileNameExtensionFilter filterXls = filter;
+            // Associa o filtro de seleção do arquivo ao FileChoose criado.
+            shareArq.setFileFilter(filterXls);
+        
+        // Monitora se o usuario selecionou um arquivo ou nao. 
+        int resposta = shareArq.showOpenDialog(this);
+        // Se o usuario selecionou o arquivo, guarda o caminho dele na String 'retorno'
+        if (resposta == JFileChooser.APPROVE_OPTION) {
+            retorno = shareArq.getSelectedFile().toString();
+        }
+        // Se o usuario nao selecionou nenhum arquivo, é retornado uma String vazia.
+        return retorno;
+        
+    }
     private void txtMaskPublicoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaskPublicoKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMaskPublicoKeyPressed

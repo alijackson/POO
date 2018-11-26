@@ -5,6 +5,9 @@
  */
 package br.mikrotik.servicosIp;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
+
 /**
  *
  * @author jackson
@@ -17,11 +20,17 @@ public class CgNat{
     private ServIp privadoMask;
     
     private int id;
+    private int maskInverso;
+    private int valorBinario;
     private int maskPublic = 0;
     private int maskPrivada = 0;
+    private int thirdOcteto;
+    private int roowOcteto;
     
     private Double quathostPublic;
     private Double quathostPrivado;
+    
+    
     
     private float divPool;
     /**
@@ -55,7 +64,7 @@ public class CgNat{
      * e a quantidade de IP privado, 
      * Função calcula quantos IP privados irão "sair" por um IP publico.
      */
-    public void sharePool()
+    public void sharePool(String caminho)
     {
         quantPrivado();
         quantPublico();
@@ -66,7 +75,7 @@ public class CgNat{
         divPool();
         
         designarToNat();
-        System.out.println("Segue conversão binaria das Maskara IP \n"+ privadoMask.toString() +"\nSegue maskra privada \n" + maskPublico.toString());
+        publicToPrivado(caminho);
     }
     /**
      * Calcula a quantidade de IP publico por cada range de IP privado. 
@@ -74,7 +83,6 @@ public class CgNat{
     private void divPool()
     {
         setDivPool((float)(getQuathostPrivado() / getQuathostPublic()));
-        System.out.println("Segue quantos host tera por IP publico "+getDivPool());
     }
     /**'
      * Devine a quantidade de IP privado contida no range informado.
@@ -111,7 +119,6 @@ public class CgNat{
             }
         }
         setMaskPrivada(cont + getMaskPrivada());
-        System.out.println("Segue tamanho da maska privada "+getMaskPrivada());
     }
 
     /**
@@ -173,13 +180,7 @@ public class CgNat{
         }
         String octeto = idRede.toString();
         setId(Integer.parseInt(octeto, 2));
-        System.out.println("Segue id de rede em binario "+octeto+
-                "\nSegue IP convertido " +Integer.parseInt(octeto, 2)+
-                "\nSegue pool divido " +getDivPool()+
-                "\nSegue quantidade de host privado " +getQuathostPrivado()+
-                "\nSegue quantidade de host publico " +getQuathostPublic()+
-                "\n Segue mask decimal "+valorMask((int)getDivPool(),0));
-        publicToPrivado();
+        setMaskInverso(valorMask((int)getDivPool(),0));
         
     }
     /**
@@ -199,31 +200,142 @@ public class CgNat{
             return cont;
         
         return valorMask(host/2, cont);
-        
     }
-    private void publicToPrivado(){
+    
+    private void publicToPrivado(String caminho){
+        try {
+            FileWriter arq = new FileWriter(caminho);
+            PrintWriter gravarArq = new PrintWriter(arq);
+            
         int maskAbrev = 32 - valorMask((int) getDivPool(),0);
+        guardBit();
         for(int i = 0; i < getQuathostPublic(); i++){
-            System.out.println("Segue Ip publico "+publico.getFirstOctetoDec()+"."+
-                    publico.getSecondOctetoDec()+"."+publico.getThirdOctetoDec()+"."+(getId() + i)+"\n"+
-                    ipPrivado(i)+"/"+maskAbrev);
+            
+            nextPool(i);
+            
+            gravarArq.print("ip firewall nat add action=src-nat chain=srcnat "
+                    + "src-address="+ipPrivado()+"/"+maskAbrev+" to-addresse="+
+                    publico.getFirstOctetoDec()+"."+
+                    publico.getSecondOctetoDec()+"."+publico.getThirdOctetoDec()+"."+
+                    (getId() + i)+"\n");
+        }
+        
+        arq.close();
+        gravarArq.close();
+        
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
-    private String ipPrivado(int block){
+    private String ipPrivado(){
+        String um;
+        String dois;
+        int tres;
+        int quatro;
+        um = privado.getFirstOctetoDec()+".";
+        dois = privado.getSecondOctetoDec()+".";
+        if(getThirdOcteto() != 0 )
+            tres = getThirdOcteto();
+        else
+            tres = privado.getThirdOctetoDec();
         
-        String um = privado.getFirstOctetoDec()+".";
-        String dois = privado.getSecondOctetoDec()+".";
-        int tres = privado.getThirdOctetoDec();
-        int quatro = privado.getRoomOctetoDec();
+        if(getRoowOcteto() != 0 )
+            quatro = getRoowOcteto();
+        else
+            quatro = privado.getRoomOctetoDec();
         
-        if(block != 0){
-            if(getDivPool() == 256){
-                tres = privado.getThirdOctetoDec() + block;
-            }
-        }
         return um+dois+tres+"."+quatro;
     }
+    private void nextPool(int n1){
+        int cont = 0; 
+        String bin = Integer.toBinaryString(n1);
+        StringBuilder incremente = new StringBuilder();
+        
+        while(getValorBinario() > (bin.length() + incremente.length()))
+            incremente.append("0");
+        
+        incremente.append(bin);
+        
+        bin = incremente.toString();
 
+        incremente = null;
+        incremente = new StringBuilder();
+        
+        String debugChar = privado.getThirdOcteto();
+        int i = 32 - getMaskPrivada();
+        
+        if(i > 16 && i < 24){
+            for(int j = 0; j < 32 - maskPrivada; j++){
+                if (incremente.length() < 8 - (maskPrivada - 8))
+                    incremente.append(debugChar.charAt(j));
+                else if(incremente.length() < 8){
+                    for(int h = 0; incremente.length() < 8; h++){
+                        if(bin.length() > cont){
+                            incremente.append(bin.charAt(h));
+                            ++cont;
+                        }
+                        else
+                            incremente.append("0");
+                    }
+                    break;
+                }
+            }
+            setThirdOcteto(Integer.parseInt(incremente.toString(), 2));
+        }
+        
+        incremente = null;
+        incremente = new StringBuilder();
+        
+        if(getMaskInverso() < 8){
+            for(int j = 0; j < 8; j++){
+                if(cont < bin.length()){
+                    incremente.append(bin.charAt(j));
+                    ++cont;
+                }
+                else {
+                    incremente.append("0");
+                }
+            }
+            setRoowOcteto(Integer.parseInt(incremente.toString(), 2));
+        }
+    }
+
+    public int getThirdOcteto() {
+        return thirdOcteto;
+    }
+
+    public void setThirdOcteto(int thirdOcteto) {
+        this.thirdOcteto = thirdOcteto;
+    }
+
+    public int getRoowOcteto() {
+        return roowOcteto;
+    }
+
+    public void setRoowOcteto(int roowOcteto) {
+        this.roowOcteto = roowOcteto;
+    }
+    
+    public int getMaskInverso() {
+        return maskInverso;
+    }
+
+    public void setMaskInverso(int maskInverso) {
+        this.maskInverso = maskInverso;
+    }
+    
+    private void guardBit(){
+        setValorBinario(getMaskPrivada() - getMaskInverso());
+    }
+
+    public int getValorBinario() {
+        return valorBinario;
+    }
+
+    public void setValorBinario(int valorBinario) {
+        this.valorBinario = valorBinario;
+    }
+    
     public int getId() {
         return id;
     }
