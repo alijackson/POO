@@ -41,7 +41,6 @@ public class Main extends javax.swing.JFrame {
         main = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         buttonCgnat = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,9 +65,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jMenuBar1.add(buttonCgnat);
-
-        jMenu2.setText("Vlan");
-        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -157,7 +153,6 @@ public class Main extends javax.swing.JFrame {
     private Cgnat cgnat = null;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu buttonCgnat;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JDesktopPane main;
     // End of variables declaration//GEN-END:variables

@@ -9,7 +9,7 @@ package br.mikrotik.servicosIp;
  *
  * @author jackson
  */
-public class Ip 
+abstract public class Ip 
 {
     private String ip;
     
