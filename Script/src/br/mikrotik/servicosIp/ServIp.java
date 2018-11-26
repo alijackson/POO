@@ -30,6 +30,7 @@ public class ServIp extends Ip {
     {   
         String campo[];
         campo = getIp().split("\\.");
+            
         //separa a string pelos pontos e atribui a um vetor
         //converte cada posi��o do vetor para int e atribui �s respectivas vari�veis        
         setFirstOctetoDec(Integer.parseInt(campo[0]));
@@ -52,6 +53,7 @@ public class ServIp extends Ip {
         }
         
         setSecondOcteto(Integer.toBinaryString(getSecondOctetoDec()));
+        
         while(getSecondOcteto().length() < 8)
         {    
             setSecondOcteto("0" + getSecondOcteto());
@@ -69,5 +71,10 @@ public class ServIp extends Ip {
             setRoomOcteto("0" + getRoomOcteto());
         }
         
+    }
+    
+    @Override
+    public String toString(){
+        return "Segue IPs binário. \n"+getFirstOcteto()+"\n"+getSecondOcteto()+"\n"+getThirdOcteto()+"\n"+getRoomOcteto();
     }
 }

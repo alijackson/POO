@@ -112,7 +112,11 @@
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JTextField" name="txtPrivado">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="100.64.0.0"/>
+      </Properties>
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPrivadoActionPerformed"/>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPrivadoKeyPressed"/>
       </Events>
     </Component>
@@ -138,7 +142,11 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtPublico">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="45.226.123.96"/>
+      </Properties>
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPublicoActionPerformed"/>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPublicoKeyPressed"/>
       </Events>
     </Component>
@@ -173,11 +181,17 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtMaskPublico">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="255.255.255.252"/>
+      </Properties>
       <Events>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtMaskPublicoKeyPressed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtMaskPrivado">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="255.255.252.0"/>
+      </Properties>
       <Events>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtMaskPrivadoKeyPressed"/>
       </Events>

@@ -65,6 +65,12 @@ public class Cgnat extends javax.swing.JInternalFrame {
         setMaximumSize(new java.awt.Dimension(300, 400));
         setMinimumSize(new java.awt.Dimension(300, 400));
 
+        txtPrivado.setText("100.64.0.0");
+        txtPrivado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPrivadoActionPerformed(evt);
+            }
+        });
         txtPrivado.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtPrivadoKeyPressed(evt);
@@ -81,6 +87,12 @@ public class Cgnat extends javax.swing.JInternalFrame {
         ipPublico2.setName(""); // NOI18N
         ipPublico2.setText("ID do Bloco publico");
 
+        txtPublico.setText("45.226.123.96");
+        txtPublico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPublicoActionPerformed(evt);
+            }
+        });
         txtPublico.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtPublicoKeyPressed(evt);
@@ -102,12 +114,14 @@ public class Cgnat extends javax.swing.JInternalFrame {
             }
         });
 
+        txtMaskPublico.setText("255.255.255.252");
         txtMaskPublico.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtMaskPublicoKeyPressed(evt);
             }
         });
 
+        txtMaskPrivado.setText("255.255.252.0");
         txtMaskPrivado.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtMaskPrivadoKeyPressed(evt);
@@ -215,24 +229,6 @@ public class Cgnat extends javax.swing.JInternalFrame {
         CgNat script = new CgNat(txtPublico.getText(), txtMaskPublico.getText(),
                             txtPrivado.getText(), txtMaskPrivado.getText());
         script.sharePool();
-        
-//        publico.separateOctets();
-//        
-//        privado.separateOctets();
-//        
-//        System.out.println("Segue ip publico "+ "\n" + publico.getFirstOcteto() + "\n" +
-//                publico.getSecondOcteto() + "\n" + publico.getThirdOcteto() + "\n" +
-//                publico.getRoomOcteto());
-//        System.out.println("Segue ip privado "+ "\n" + privado.getFirstOcteto() + "\n" +
-//                privado.getSecondOcteto() + "\n" + privado.getThirdOcteto() + "\n" +
-//                privado.getRoomOcteto());
-//        
-//        System.out.println("Segue Decimal publico "+ "\n" + publico.getFirstOctetoDec() + "\n" +
-//                publico.getSecondOctetoDec() + "\n" + publico.getThirdOctetoDec() + "\n" +
-//                publico.getRoomOctetoDec());
-//        System.out.println("Segue Decimal privado "+ "\n" + privado.getFirstOctetoDec() + "\n" +
-//                privado.getSecondOctetoDec() + "\n" + privado.getThirdOctetoDec() + "\n" +
-//                privado.getRoomOctetoDec());
     }//GEN-LAST:event_gerarScriptActionPerformed
 
     private void txtMaskPublicoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaskPublicoKeyPressed
@@ -242,6 +238,14 @@ public class Cgnat extends javax.swing.JInternalFrame {
     private void txtMaskPrivadoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaskPrivadoKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMaskPrivadoKeyPressed
+
+    private void txtPublicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPublicoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPublicoActionPerformed
+
+    private void txtPrivadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrivadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrivadoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
